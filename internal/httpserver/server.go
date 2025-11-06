@@ -94,4 +94,6 @@ func (s *Server) Shutdown() {
 		fmt.Println("forced close:", err)
 		_ = s.httpServer.Close()
 	}
+
+	fmt.Println("bye")
 }
