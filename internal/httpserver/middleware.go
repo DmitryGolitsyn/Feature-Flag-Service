@@ -121,7 +121,7 @@ func clientIP(r *http.Request) string {
 		return xrip
 	}
 	// 3) RemoteAddr (host:port)
-	host, _, err := netSplitHostPort(r.RemoteAddr)
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil && host != "" {
 		return host
 	}
@@ -144,7 +144,6 @@ func splitCommaTrim(s string) []string {
 
 func trimSpaces(s string) string {
 	// без аллокаций ради простоты можно strings.TrimSpace, но оставим компактно
-
 	i, j := 0, len(s)-1
 	for i <= j && (s[i] == ' ' || s[i] == '\t') {
 		i++
@@ -156,19 +155,4 @@ func trimSpaces(s string) string {
 		return ""
 	}
 	return s[i : j+1]
-}
-
-// netSplitHostPort — обёртка над net.SplitHostPort, чтобы не импортить вверху
-func netSplitHostPort(addr string) (host, port string, err error) {
-	// локально дернем из std без глобального импорта наверху
-	type splitter interface {
-		SplitHostPort(hostport string) (host, port string, err error)
-	}
-	return (&netPkg{}).SplitHostPort(addr)
-}
-
-type netPkg struct{}
-
-func (*netPkg) SplitHostPort(hostport string) (string, string, error) {
-	return net.SplitHostPort(hostport)
 }
