@@ -19,7 +19,7 @@ type Server struct {
 }
 
 // New creates router + http.Server
-func New() *Server {
+func New(addr string) *Server {
 	r := chi.NewRouter()
 
 	// атомарный флаг готовности (1 = ready, 0 = not ready)
@@ -50,7 +50,7 @@ func New() *Server {
 	})
 
 	srv := &http.Server{
-		Addr:              ":8080",
+		Addr:              addr,
 		Handler:           r,
 		ReadHeaderTimeout: 5 * time.Second,
 		WriteTimeout:      15 * time.Second,
