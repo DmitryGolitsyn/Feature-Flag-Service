@@ -2,6 +2,7 @@ package httpserver
 
 import (
 	"context"
+	"ffs-tutorial/internal/app"
 	"fmt"
 	"net/http"
 	"os"
@@ -16,10 +17,11 @@ import (
 type Server struct {
 	httpServer *http.Server
 	ready      *int32
+	app        *app.Application
 }
 
 // New creates router + http.Server
-func New(addr string, rht, wt, it time.Duration) *Server {
+func New(addr string, rht, wt, it time.Duration, app *app.Application) *Server {
 	r := chi.NewRouter()
 
 	// атомарный флаг готовности (1 = ready, 0 = not ready)
@@ -49,7 +51,7 @@ func New(addr string, rht, wt, it time.Duration) *Server {
 		_, _ = w.Write([]byte("not ready"))
 	})
 
-	mountAPIv1(r)
+	mountAPIv1(r, app)
 
 	r.Post("/v1/error", func(w http.ResponseWriter, r *http.Request) {
 		ErrorJSON(w, r, http.StatusBadRequest, "bad test error")
@@ -66,6 +68,7 @@ func New(addr string, rht, wt, it time.Duration) *Server {
 	return &Server{
 		httpServer: srv,
 		ready:      &ready,
+		app:        app,
 	}
 }
 

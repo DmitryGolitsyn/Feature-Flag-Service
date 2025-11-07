@@ -14,6 +14,11 @@ type ErrorResponse struct {
 
 // JSON — помогает отдавать обычные успешные ответы
 func JSON(w http.ResponseWriter, r *http.Request, status int, data interface{}) {
+	// проставим X-Request-Id в ответ
+	if rid := requestIDFromContext(r.Context()); rid != "" {
+		w.Header().Set(HeaderRequestID, rid)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 
@@ -22,10 +27,7 @@ func JSON(w http.ResponseWriter, r *http.Request, status int, data interface{}) 
 
 // ErrorJSON — всегда отдаёт одну и ту же структуру ошибки
 func ErrorJSON(w http.ResponseWriter, r *http.Request, status int, msg string) {
-	var rid string
-	if v := r.Context().Value(reqIDKey{}); v != nil {
-		rid, _ = v.(string)
-	}
+	rid := requestIDFromContext(r.Context())
 
 	resp := ErrorResponse{
 		Error:      msg,
