@@ -8,6 +8,11 @@ import (
 
 func main() {
 	httpCfg := config.LoadHTTP()
-	s := httpserver.New(httpCfg.Addr)
+	s := httpserver.New(
+		httpCfg.Addr,
+		httpCfg.ReadHeaderTimeout,
+		httpCfg.WriteTimeout,
+		httpCfg.IdleTimeout,
+	)
 	_ = s.Start(context.Background())
 }
