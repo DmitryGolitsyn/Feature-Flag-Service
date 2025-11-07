@@ -51,6 +51,10 @@ func New(addr string, rht, wt, it time.Duration) *Server {
 
 	mountAPIv1(r)
 
+	r.Post("/v1/error", func(w http.ResponseWriter, r *http.Request) {
+		ErrorJSON(w, r, http.StatusBadRequest, "bad test error")
+	})
+
 	srv := &http.Server{
 		Addr:              addr,
 		Handler:           r,

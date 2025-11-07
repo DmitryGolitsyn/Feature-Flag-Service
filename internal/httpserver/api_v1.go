@@ -1,7 +1,6 @@
 package httpserver
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -11,6 +10,7 @@ import (
 func mountAPIv1(r chi.Router) {
 	r.Route("/v1", func(r chi.Router) {
 		r.Post("/ping", handlePing)
+
 	})
 }
 
@@ -26,6 +26,8 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 			rid = s
 		}
 	}
-	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(pingResponse{OK: true, RequestID: rid})
+	JSON(w, r, http.StatusOK, pingResponse{
+		OK:        true,
+		RequestID: rid,
+	})
 }
