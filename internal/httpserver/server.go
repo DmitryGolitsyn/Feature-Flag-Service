@@ -26,7 +26,10 @@ func New() *Server {
 	var ready int32
 	atomic.StoreInt32(&ready, 1) // на старте считаем, что готовы; позже здесь будет логика БД/кэшей
 
-	r.Use(func(next http.Handler) http.Handler { return Logging(next) })
+	r.Use(RequestID)
+	r.Use(Logging)
+
+	//r.Use(func(next http.Handler) http.Handler { return Logging(next) })
 
 	// liveness curl -i http://localhost:8080/healthz
 	r.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
