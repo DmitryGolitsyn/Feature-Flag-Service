@@ -49,6 +49,8 @@ func New(addr string, rht, wt, it time.Duration) *Server {
 		_, _ = w.Write([]byte("not ready"))
 	})
 
+	mountAPIv1(r)
+
 	srv := &http.Server{
 		Addr:              addr,
 		Handler:           r,
