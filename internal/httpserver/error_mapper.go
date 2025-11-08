@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+// mapAppErrorToHTTP переводит ошибку usecase в HTTP-статус.
+// Важно: использовать errors.Is, т.к. usecase возвращают обёрнутые ошибки.
 func MapErrorToStatus(err error) int {
 	switch {
 
