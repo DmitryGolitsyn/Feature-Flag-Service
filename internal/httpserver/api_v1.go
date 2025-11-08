@@ -24,7 +24,8 @@ func handlePing(app *app.Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ok, err := app.Ping.Ping(r.Context())
 		if err != nil {
-			ErrorJSON(w, r, http.StatusInternalServerError, err.Error())
+			status := MapErrorToStatus(err)
+			ErrorJSON(w, r, status, err.Error())
 			return
 		}
 		JSON(w, r, http.StatusOK, pingResponse{

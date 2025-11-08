@@ -10,6 +10,7 @@ import (
 func main() {
 	application := app.New()
 	httpCfg := config.LoadHTTP()
+
 	s := httpserver.New(
 		httpCfg.Addr,
 		httpCfg.ReadHeaderTimeout,
@@ -17,5 +18,6 @@ func main() {
 		httpCfg.IdleTimeout,
 		application,
 	)
+
 	_ = s.Start(context.Background())
 }
