@@ -4,6 +4,7 @@ package app
 // Здесь будут все сценарии: Ping, UserCreate, OrderProcess, NotificationSend, etc.
 type Application struct {
 	Ping *PingUsecase
+	Echo *EchoUsecase
 }
 
 // New создаёт приложение и все его usecase.
@@ -11,5 +12,6 @@ type Application struct {
 func New() *Application {
 	return &Application{
 		Ping: NewPingUsecase(),
+		Echo: NewEchoUsecase(),
 	}
 }
