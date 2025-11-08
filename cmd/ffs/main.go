@@ -5,11 +5,14 @@ import (
 	"ffs-tutorial/internal/app"
 	"ffs-tutorial/internal/config"
 	"ffs-tutorial/internal/httpserver"
+	"ffs-tutorial/internal/infra/mem"
 )
 
 func main() {
-	application := app.New()
 	httpCfg := config.LoadHTTP()
+
+	repo := mem.NewFlagRepo()
+	application := app.NewWithRepo(repo)
 
 	s := httpserver.New(
 		httpCfg.Addr,
@@ -19,5 +22,7 @@ func main() {
 		application,
 	)
 
-	_ = s.Start(context.Background())
+	if err := s.Start(context.Background()); err != nil {
+		panic(err)
+	}
 }
