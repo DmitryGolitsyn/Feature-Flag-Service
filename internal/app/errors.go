@@ -5,10 +5,12 @@ import (
 )
 
 var (
-	ErrNotFound = errors.New("not found")
-	ErrInvalid  = errors.New("invalid_input")
-	// ErrForbidden = errors.New("forbidden")
-	// ErrInternal  = errors.New("internal_error")
+	ErrNotFound       = errors.New("not found")
+	ErrInvalid        = errors.New("invalid_input")
+	ErrForbidden      = errors.New("forbidden")
+	ErrInternal       = errors.New("internal_error")
+	ErrConflict       = errors.New("conflict")
+	ErrNotImplemented = errors.New("not_implemented")
 )
 
 //// Invalid оборачивает как "invalid_input"
