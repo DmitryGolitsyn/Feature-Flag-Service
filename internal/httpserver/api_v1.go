@@ -25,7 +25,7 @@ func handlePing(app *app.Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ok, err := app.Ping.Ping(r.Context())
 		if err != nil {
-			status := MapErrorToStatus(err)
+			status := httpStatusFor(err)
 			ErrorJSON(w, r, status, err.Error())
 			return
 		}
@@ -55,11 +55,12 @@ func handleEcho(app *app.Application) http.HandlerFunc {
 		// минимальная валидация (это HTTP-слой)
 		if req.Message == "" {
 			ErrorJSON(w, r, http.StatusBadRequest, "message is required")
+			return
 		}
 		// вызываем usecase
 		respMsg, err := app.Echo.Do(r.Context(), req.Message)
 		if err != nil {
-			status := MapErrorToStatus(err)
+			status := httpStatusFor(err)
 			ErrorJSON(w, r, status, err.Error())
 			return
 		}

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"strings"
 )
 
 type EchoUsecase struct{}
@@ -11,10 +12,16 @@ func NewEchoUsecase() *EchoUsecase {
 }
 
 func (u *EchoUsecase) Do(ctx context.Context, msg string) (string, error) {
-	if len(msg) == 0 {
-		return "", WithOp("EchoUsecase.Do", Invalid("msg is empty", nil))
+	const op = "app.EchoUsecase.Do"
+
+	// Простейшая бизнес-валидация
+	if strings.TrimSpace(msg) == "" {
+		return "", Invalid(op, "msg is empty")
 	}
-	// будущая бизнес-логика (например, запись в БД)
-	// сейчас просто возвращаем echo
+	// Если тут будет вызов БД/внешнего API:
+	// if err := repo.Save(...); err != nil {
+	//     return "", Wrap(op, err) // сохраним Kind, либо превратим в internal
+	// }
+
 	return msg, nil
 }
