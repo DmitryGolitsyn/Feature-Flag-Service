@@ -1,15 +1,16 @@
 package app
 
-import (
-	"errors"
-)
-
-var (
-	ErrNotFound  = errors.New("not found")
-	ErrInvalid   = errors.New("invalid_input")
-	ErrForbidden = errors.New("forbidden")
-	ErrInternal  = errors.New("internal_error")
-)
+//
+//import (
+//	"errors"
+//)
+//
+//var (
+//	ErrNotFound  = errors.New("not found")
+//	ErrInvalid   = errors.New("invalid_input")
+//	ErrForbidden = errors.New("forbidden")
+//	ErrInternal  = errors.New("internal_error")
+//)
 
 //// Invalid оборачивает как "invalid_input"
 //func Invalid(msg string, cause error) error {

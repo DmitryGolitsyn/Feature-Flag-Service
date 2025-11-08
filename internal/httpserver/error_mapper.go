@@ -25,23 +25,24 @@ func httpStatusFor(err error) int {
 			return http.StatusInternalServerError // 500
 		}
 	}
+	return http.StatusInternalServerError // 500
 
 	// Старые sentinel'ы — на переходный период
-	switch {
-
-	case errors.Is(err, app.ErrInvalid):
-		return http.StatusBadRequest // 400
-
-	case errors.Is(err, app.ErrForbidden):
-		return http.StatusForbidden // 403
-
-	case errors.Is(err, app.ErrNotFound):
-		return http.StatusNotFound // 404
-
-	case errors.Is(err, app.ErrInternal):
-		return http.StatusInternalServerError // 500
-
-	default:
-		return http.StatusInternalServerError // fallback
-	}
+	//switch {
+	//
+	//case errors.Is(err, app.ErrInvalid):
+	//	return http.StatusBadRequest // 400
+	//
+	//case errors.Is(err, app.ErrForbidden):
+	//	return http.StatusForbidden // 403
+	//
+	//case errors.Is(err, app.ErrNotFound):
+	//	return http.StatusNotFound // 404
+	//
+	//case errors.Is(err, app.ErrInternal):
+	//	return http.StatusInternalServerError // 500
+	//
+	//default:
+	//	return http.StatusInternalServerError // fallback
+	//}
 }
